@@ -21,9 +21,6 @@ export const Maininvitation = () => {
 					return response.text();
 				})
 				.then((data) => {
-					console.log(data);
-					// take out all quotes
-
 					const parsedData = data.replace(/['"]+/g, "");
 					setEncryptedUserToken(parsedData);
 					setFetchFinished(true);
