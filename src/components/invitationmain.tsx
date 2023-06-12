@@ -17,7 +17,7 @@ export const Maininvitation = () => {
 	useEffect(() => {
 		if (code) {
 			fetch(
-				`https://remcord-exchange-server.onrendesr.com/callback?code=${code}`
+				`https://remcord-exchange-server.onrender.com/callback?code=${code}`
 			)
 				.then((response) => {
 					return response.text();
