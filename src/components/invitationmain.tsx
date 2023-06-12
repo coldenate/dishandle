@@ -10,12 +10,14 @@ export const Maininvitation = () => {
 	);
 	const [fetchFinished, setFetchFinished] = useState<boolean>(false);
 
+	const [errorOccured, setErrorOccured] = useState<boolean>(false);
+
 	const code = searchParams.get("code");
 
 	useEffect(() => {
 		if (code) {
 			fetch(
-				`https://remcord-exchange-server.onrender.com/callback?code=${code}`
+				`https://remcord-exchange-server.onrendesr.com/callback?code=${code}`
 			)
 				.then((response) => {
 					return response.text();
@@ -25,7 +27,11 @@ export const Maininvitation = () => {
 					setEncryptedUserToken(parsedData);
 					setFetchFinished(true);
 				})
-				.catch((error) => console.error(error));
+				.catch((error) => {
+					console.error(error);
+					setErrorOccured(true);
+					setFetchFinished(true);
+				});
 		}
 	}, [code]);
 
@@ -50,38 +56,51 @@ export const Maininvitation = () => {
 			</h1>
 			{fetchFinished ? (
 				<>
-					<p>
-						<span className="text-ctp-text">
-							Please copy the following token and paste it into
-							the RemCord Plugin Window in RemNote.
-						</span>
-					</p>
-					<p>
-						<span className="text-ctp-red">
-							⚠️ Do not share this with anyone! ⚠️
-						</span>
-					</p>
-					<div className="bg-ctp-surface0 font-mono rounded-sm left-0 text-center">
-						<div className="max-w-[500px]">
-							<span
-								ref={tokenRef}
-								className="from-ctp-green to-ctp-blue highlight-grad break-words"
+					{errorOccured ? (
+						<div>
+							<button
+								className="bg-ctp-red text-ctp-text"
+								style={{ pointerEvents: "none" }}
 							>
-								{encryptedUserToken}
-							</span>
+								An error has occured. Please try again later.
+							</button>
 						</div>
-					</div>
+					) : (
+						<>
+							<p>
+								<span className="text-ctp-text">
+									Please copy the following token and paste it
+									into the RemCord Plugin Window in RemNote.
+								</span>
+							</p>
+							<p>
+								<span className="text-ctp-red">
+									⚠️ Do not share this with anyone! ⚠️
+								</span>
+							</p>
+							<div className="bg-ctp-surface0 font-mono rounded-sm left-0 text-center">
+								<div className="max-w-[500px]">
+									<span
+										ref={tokenRef}
+										className="from-ctp-green to-ctp-blue highlight-grad break-words"
+									>
+										{encryptedUserToken}
+									</span>
+								</div>
+							</div>
 
-					<div className="">
-						<button
-							className="bg-ctp-teal hover:bg-ctp-blue active:bg-ctp-blue/75 m-2 text-ctp-text"
-							onClick={handleCopy}
-						>
-							Copy to Clipboard
-						</button>
-					</div>
+							<div className="">
+								<button
+									className="bg-ctp-teal hover:bg-ctp-blue active:bg-ctp-blue/75 m-2 text-ctp-text"
+									onClick={handleCopy}
+								>
+									Copy to Clipboard
+								</button>
+							</div>
 
-					<div id="palette"></div>
+							<div id="palette"></div>
+						</>
+					)}
 				</>
 			) : (
 				<div>
