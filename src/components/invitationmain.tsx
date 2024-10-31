@@ -15,24 +15,33 @@ export const Maininvitation = () => {
 	const code = searchParams.get("code");
 
 	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				const response = await fetch(
+					`https://remcord-exchange-server.onrender.com/callback?code=${code}`
+				);
+				if (!response.ok) {
+					throw new Error("Network response was not ok");
+				}
+				const data = await response.text();
+				const parsedData = data.replace(/['"]+/g, "");
+				setEncryptedUserToken(parsedData);
+				setFetchFinished(true);
+			} catch (error) {
+				console.error("Fetch error:", error);
+				setErrorOccured(true);
+				setFetchFinished(true);
+			}
+		};
+
 		if (code) {
-			fetch(
-				`https://remcord-exchange-server.onrender.com/callback?code=${code}`
-			)
-				.then((response) => {
-					return response.text();
-				})
-				.then((data) => {
-					const parsedData = data.replace(/['"]+/g, "");
-					setEncryptedUserToken(parsedData);
-					setFetchFinished(true);
-				})
-				.catch((error) => {
-					console.error(error);
-					setErrorOccured(true);
-					setFetchFinished(true);
-				});
+			fetchData();
 		}
+
+		// Cleanup function to remove event listeners and prevent memory leaks
+		return () => {
+			// Add any necessary cleanup code here
+		};
 	}, [code]);
 
 	const handleCopy = () => {
