@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Maininvitation } from "./components/invitationmain.jsx";
 import React from "react";
 import { variants } from "@catppuccin/palette";
@@ -23,21 +23,39 @@ export function App() {
 	document.documentElement.style.setProperty("--primary", base);
 	document.documentElement.style.setProperty("--secondary", blue);
 
+	// Cleanup function to remove event listeners and prevent memory leaks
+	useEffect(() => {
+		const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+			event.preventDefault();
+			event.returnValue = "";
+		};
+
+		window.addEventListener("beforeunload", handleBeforeUnload);
+
+		return () => {
+			window.removeEventListener("beforeunload", handleBeforeUnload);
+		};
+	}, []);
+
 	return (
 		<BrowserRouter>
 			<div
 				key={theme}
 				className={`App min-h-screen grid ${theme} transition-all duration-500 ease-in-out`}
+				// Main container for the app with dynamic theme and transition effects
 			>
 				<main className="flex flex-col justify-center items-center bg-gradient-to-b from-ctp-base to-ctp-crust p-6 transition-all duration-500 ease-in-out">
+					 {/* Main content area with gradient background and transition effects */}
 					<Routes>
 						<Route
 							path={`${BASE_URL}`}
 							element={<Maininvitation />}
 						>
 							<Route path=":code" element={<Maininvitation />} />
+							{/* Route for handling invitation with code parameter */}
 						</Route>
 						<Route path="/" element={<Maininvitation />} />
+						{/* Default route for the main invitation component */}
 					</Routes>
 				</main>
 				<div className="fixed bottom-4 right-4">
