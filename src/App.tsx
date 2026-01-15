@@ -1,8 +1,7 @@
-import { useState, useEffect } from "react";
-import { Maininvitation } from "./components/invitationmain.jsx";
-import React from "react";
 import { variants } from "@catppuccin/palette";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Maininvitation } from "./components/invitationmain.jsx";
 
 const { BASE_URL } = import.meta.env;
 
@@ -37,30 +36,15 @@ export function App() {
 		};
 	}, []);
 
-	// Function to fetch data with error handling
-	const fetchData = async (url: string) => {
-		try {
-			const response = await fetch(url);
-			if (!response.ok) {
-				throw new Error("Network response was not ok");
-			}
-			const data = await response.json();
-			return data;
-		} catch (error) {
-			console.error("Fetch error:", error);
-			throw error;
-		}
-	};
-
 	return (
 		<BrowserRouter>
 			<div
 				key={theme}
 				className={`App min-h-screen grid ${theme} transition-all duration-500 ease-in-out`}
-				 // Main container for the app with dynamic theme and transition effects
+				// Main container for the app with dynamic theme and transition effects
 			>
 				<main className="flex flex-col justify-center items-center bg-gradient-to-b from-ctp-base to-ctp-crust p-6 transition-all duration-500 ease-in-out">
-					 {/* Main content area with gradient background and transition effects */}
+					{/* Main content area with gradient background and transition effects */}
 					<Routes>
 						<Route
 							path={`${BASE_URL}`}
