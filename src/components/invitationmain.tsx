@@ -64,57 +64,58 @@ export const Maininvitation = () => {
 				RemCord-Discord Authenticator
 			</h1>
 			{fetchFinished ? (
-				<>
-					{errorOccured ? (
-						<div>
+				errorOccured ? (
+					<div>
+						<button
+							className="bg-ctp-red text-ctp-text"
+							type="button"
+							style={{ pointerEvents: "none" }}
+						>
+							An error has occured. Please try again later.
+						</button>
+					</div>
+				) : (
+					<>
+						<p>
+							<span className="text-ctp-text">
+								Please copy the following token and paste it
+								into the RemCord Plugin Window in RemNote.
+							</span>
+						</p>
+						<p>
+							<span className="text-ctp-red">
+								⚠️ Do not share this with anyone! ⚠️
+							</span>
+						</p>
+						<div className="bg-ctp-surface0 font-mono rounded-sm left-0 text-center">
+							<div className="max-w-[500px]">
+								<span
+									ref={tokenRef}
+									className="from-ctp-green to-ctp-blue highlight-grad break-words"
+								>
+									{encryptedUserToken}
+								</span>
+							</div>
+						</div>
+
+						<div className="">
 							<button
-								className="bg-ctp-red text-ctp-text"
-								style={{ pointerEvents: "none" }}
+								className="bg-ctp-teal hover:bg-ctp-blue active:bg-ctp-blue/75 m-2 text-ctp-text"
+								onClick={handleCopy}
+								type="button"
 							>
-								An error has occured. Please try again later.
+								Copy to Clipboard
 							</button>
 						</div>
-					) : (
-						<>
-							<p>
-								<span className="text-ctp-text">
-									Please copy the following token and paste it
-									into the RemCord Plugin Window in RemNote.
-								</span>
-							</p>
-							<p>
-								<span className="text-ctp-red">
-									⚠️ Do not share this with anyone! ⚠️
-								</span>
-							</p>
-							<div className="bg-ctp-surface0 font-mono rounded-sm left-0 text-center">
-								<div className="max-w-[500px]">
-									<span
-										ref={tokenRef}
-										className="from-ctp-green to-ctp-blue highlight-grad break-words"
-									>
-										{encryptedUserToken}
-									</span>
-								</div>
-							</div>
 
-							<div className="">
-								<button
-									className="bg-ctp-teal hover:bg-ctp-blue active:bg-ctp-blue/75 m-2 text-ctp-text"
-									onClick={handleCopy}
-								>
-									Copy to Clipboard
-								</button>
-							</div>
-
-							<div id="palette"></div>
-						</>
-					)}
-				</>
+						<div id="palette"></div>
+					</>
+				)
 			) : (
 				<div>
 					<button
 						className="bg-ctp-teal text-ctp-text"
+						type="button"
 						style={{ pointerEvents: "none" }}
 					>
 						Loading...
