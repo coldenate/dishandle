@@ -11,7 +11,7 @@
 		"@catppuccin/palette": "^0.1.8",
 		"react": "^18.0.0",
 		"react-dom": "^18.0.0",
-		"react-router-dom": "^6.11.1",
+		"react-router-dom": "^6.30.3",
 		"util": "^0.10.0"
 	},
 	"devDependencies": {
